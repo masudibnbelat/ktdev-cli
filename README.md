@@ -1,14 +1,16 @@
 <div align="center">
 
-# ktdev
+![ktdev](assets/banner.svg)
+
+[![Release](https://img.shields.io/github/v/release/masudibnbelat/ktdev-cli?style=for-the-badge)](https://github.com/masudibnbelat/ktdev-cli/releases)
+[![Build](https://img.shields.io/github/actions/workflow/status/masudibnbelat/ktdev-cli/release.yml?style=for-the-badge)](https://github.com/masudibnbelat/ktdev-cli/actions)
+[![Go](https://img.shields.io/github/go-mod/go-version/masudibnbelat/ktdev-cli?style=for-the-badge)](https://go.dev/)
+[![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-blue?style=for-the-badge)](https://github.com/masudibnbelat/ktdev-cli/releases)
+[![Downloads](https://img.shields.io/github/downloads/masudibnbelat/ktdev-cli/total?style=for-the-badge)](https://github.com/masudibnbelat/ktdev-cli/releases)
+[![Stars](https://img.shields.io/github/stars/masudibnbelat/ktdev-cli?style=for-the-badge)](https://github.com/masudibnbelat/ktdev-cli/stargazers)
 
 **One small CLI for any Android project.**
 Build it. Run it on your phone. Release it on GitHub. One command each.
-
-[![Release](https://img.shields.io/github/v/release/masudibnbelat/ktdev-cli)](https://github.com/masudibnbelat/ktdev-cli/releases)
-[![Go](https://img.shields.io/github/go-mod/go-version/masudibnbelat/ktdev-cli)](https://go.dev/)
-[![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-blue)](https://github.com/masudibnbelat/ktdev-cli/releases)
-[![Downloads](https://img.shields.io/github/downloads/masudibnbelat/ktdev-cli/total)](https://github.com/masudibnbelat/ktdev-cli/releases)
 
 </div>
 
@@ -17,12 +19,16 @@ Build it. Run it on your phone. Release it on GitHub. One command each.
 ## Contents
 
 - [Why ktdev?](#why-ktdev)
+- [See how it works](#see-how-it-works)
+- [See it in action](#see-it-in-action)
+- [ktdev vs doing it by hand](#ktdev-vs-doing-it-by-hand)
 - [1. User Guide](#1-user-guide)
   - [1.1 Installation Process](#11-installation-process)
   - [1.2 Usage](#12-usage)
   - [1.3 Command List](#13-command-list)
   - [1.4 How It Works](#14-how-it-works)
 - [2. Developer Guide](#2-developer-guide)
+- [Changelog](#changelog)
 - [Troubleshooting](#troubleshooting)
 - [What ktdev does NOT do](#what-ktdev-does-not-do)
 
@@ -43,6 +49,64 @@ Build it. Run it on your phone. Release it on GitHub. One command each.
 > **Runs on your computer only — Windows, Linux, or macOS.**
 > It does **not** run on your phone. Your phone is only used to install
 > and open the app. `build` and `release` do not need a phone at all.
+
+---
+
+## See how it works
+
+```mermaid
+flowchart LR
+    A["You run a command"] --> B{"Java? Gradle? adb?"}
+    B -->|"Missing"| C["ktdev downloads it once\ninto ~/.ktdev/"]
+    B -->|"Ready"| D["Gradle builds your app"]
+    C --> D
+    D --> E["APK copied to apk/"]
+    E --> F["Phone or GitHub Release"]
+```
+
+---
+
+## See it in action
+
+A fresh computer — no Java, no `adb`, no Gradle installed. Just `ktdev`:
+
+```
+$ ktdev doctor
+ktdev 0.2.0 — environment check
+java: MISSING (auto-installs Temurin 17 on build)
+adb: MISSING (auto-installs platform-tools on run)
+gh: /usr/bin/gh
+---
+Project: /home/professor/MyApp
+Wrapper Gradle version: 8.9
+Gradle: /home/professor/MyApp/gradlew
+
+$ ktdev build
+== Java not found — downloading Eclipse Temurin 17 once...
+== Java: /home/professor/.ktdev/jdk/temurin-17/bin/java
+== Gradle: /home/professor/MyApp/gradlew
+== APK: /home/professor/MyApp/apk/MyApp-debug.apk
+
+$ ktdev devices
+== adb not found — downloading Google platform-tools once...
+== adb: /home/professor/.ktdev/platform-tools/adb
+List of devices attached
+bb0758c3	device
+```
+
+First time only — next builds reuse the saved copies, in under a second.
+
+---
+
+## ktdev vs doing it by hand
+
+| Step | By hand | With ktdev |
+|---|---|---|
+| Install Java | Download a JDK, set `JAVA_HOME`, fix the version | Automatic on first build |
+| Install adb | Download platform-tools, add it to `PATH` | Automatic on first run |
+| Pick the Gradle version | Read the wrapper file, find a matching install | Automatic, from your project |
+| Find the APK | Dig through `app/build/outputs/apk/` | Copied to `apk/` for you |
+| Make a release | Tag, build, check the version, push, `gh release create` | One command: `ktdev release v1.5.0` |
 
 ---
 
@@ -270,6 +334,12 @@ projects with Gradle 9.x.
 
 </details>
 
+<div align="right">
+
+[Back to top ↑](#contents)
+
+</div>
+
 ---
 
 ## 2. Developer Guide
@@ -337,6 +407,21 @@ Before you tell anyone to install, check the Release page has
 files named `ktdev-linux-amd64` and `ktdev-windows-amd64.exe`
 (no `.tar.gz` / `.zip`).
 
+<div align="right">
+
+[Back to top ↑](#contents)
+
+</div>
+
+---
+
+## Changelog
+
+| Version | What changed |
+|---|---|
+| **v0.2.0** | Java + adb auto-install (Temurin 17, Google platform-tools); `doctor` reports without downloading |
+| **v0.1.0** | First release: `build`, `run`, `release`, `devices`, `logs`, `uninstall`, `clean`, `doctor`; dynamic Gradle; APK copy to `apk/` |
+
 ---
 
 ## Troubleshooting
@@ -372,5 +457,7 @@ files named `ktdev-linux-amd64` and `ktdev-windows-amd64.exe`
 <div align="center">
 
 Made with Go — standard library only, no dependencies.
+
+If ktdev saves you time, give it a star ⭐ — it helps others find it.
 
 </div>
