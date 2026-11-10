@@ -200,24 +200,66 @@ which `ktdev` does not download.
 | `gh is not logged in` | Run `gh auth login` once |
 | `APK stamp mismatch` | Do not upload it. Check the tag and version, then try again. |
 
-## Build it yourself
+## Developer guide
 
-You need Go 1.23 or newer.
+You want to change `ktdev` itself? You only need Go 1.23 or newer.
+Everything below is copy-paste. No extra setup.
+
+### 1. Get the code
 
 ```bash
 git clone https://github.com/masudibnbelat/ktdev-cli.git
 cd ktdev-cli
-go build -o ktdev .
-./ktdev --help
 ```
 
-## Releasing a new version of ktdev
+### 2. Change the code
+
+Edit any `.go` file. When you get changed files from someone,
+put them in this folder and replace the old ones.
+
+### 3. Build and install — one command
+
+**Linux / macOS:**
 
 ```bash
+go build -o ktdev . && cp ktdev ~/.local/bin/ktdev && ktdev --version
+```
+
+**Windows (PowerShell):**
+
+```powershell
+go build -o ktdev.exe .; Copy-Item ktdev.exe "$env:LOCALAPPDATA\ktdev\bin\ktdev.exe" -Force; ktdev --version
+```
+
+That one command builds it, installs it, and shows the new version.
+If it shows the old version, close the terminal and open it again.
+
+### 4. Test it
+
+```bash
+ktdev doctor
+```
+
+Then test the command you changed, for example `ktdev build`
+in a test Android project.
+
+### 5. Release a new version
+
+Change the version number in `main.go` first
+(`const version = "0.2.0"`), then run this:
+
+```bash
+git add -A
+git commit -m "v0.2.0: what changed"
+git push
 git tag v0.2.0
 git push origin v0.2.0
 ```
 
-GitHub Actions builds the binaries and puts them in the Release.
-Before you tell anyone to install, check the Release has files named
-`ktdev-linux-amd64` and `ktdev-windows-amd64.exe` (no `.tar.gz` / `.zip`).
+Tag only after you pushed the latest code — the tag must be on
+the newest commit, or the Release will build old code.
+
+After the push, GitHub Actions builds the Release by itself.
+Before you tell anyone to install, check the Release page has
+files named `ktdev-linux-amd64` and `ktdev-windows-amd64.exe`
+(no `.tar.gz` / `.zip`).
