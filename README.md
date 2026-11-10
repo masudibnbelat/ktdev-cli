@@ -9,8 +9,14 @@
 [![Downloads](https://img.shields.io/github/downloads/masudibnbelat/ktdev-cli/total?style=for-the-badge)](https://github.com/masudibnbelat/ktdev-cli/releases)
 [![Stars](https://img.shields.io/github/stars/masudibnbelat/ktdev-cli?style=for-the-badge)](https://github.com/masudibnbelat/ktdev-cli/stargazers)
 
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/masudibnbelat/ktdev-cli/pulls)
+[![Last Commit](https://img.shields.io/github/last-commit/masudibnbelat/ktdev-cli?style=flat-square)](https://github.com/masudibnbelat/ktdev-cli/commits/main)
+[![Issues](https://img.shields.io/github/issues/masudibnbelat/ktdev-cli?style=flat-square)](https://github.com/masudibnbelat/ktdev-cli/issues)
+
 **One small CLI for any Android project.**
 Build it. Run it on your phone. Release it on GitHub. One command each.
+
+[![ktdev-cli](https://github-readme-stats.vercel.app/api/pin/?username=masudibnbelat&repo=ktdev-cli&theme=dark)](https://github.com/masudibnbelat/ktdev-cli)
 
 </div>
 
@@ -28,6 +34,7 @@ Build it. Run it on your phone. Release it on GitHub. One command each.
   - [1.3 Command List](#13-command-list)
   - [1.4 How It Works](#14-how-it-works)
 - [2. Developer Guide](#2-developer-guide)
+- [Contributing](#contributing)
 - [Changelog](#changelog)
 - [Troubleshooting](#troubleshooting)
 - [What ktdev does NOT do](#what-ktdev-does-not-do)
@@ -69,6 +76,10 @@ flowchart LR
 ## See it in action
 
 A fresh computer — no Java, no `adb`, no Gradle installed. Just `ktdev`:
+
+![ktdev terminal session](assets/terminal.svg)
+
+The same session as text:
 
 ```
 $ ktdev doctor
@@ -412,6 +423,43 @@ files named `ktdev-linux-amd64` and `ktdev-windows-amd64.exe`
 [Back to top ↑](#contents)
 
 </div>
+
+---
+
+## Contributing
+
+Found a bug, or want a new command? Contributions are welcome.
+Follow these steps:
+
+**Step 1 —** Fork the repo on GitHub, then clone your fork:
+
+```bash
+git clone https://github.com/YOUR-NAME/ktdev-cli.git
+cd ktdev-cli
+```
+
+**Step 2 —** Make a new branch for your change:
+
+```bash
+git checkout -b my-change
+```
+
+**Step 3 —** Change the code, then build and test it
+(see [2. Developer Guide](#2-developer-guide), Steps 3–4).
+
+**Step 4 —** Commit with a clear message:
+
+```bash
+git add -A
+git commit -m "Add ktdev logs --follow"
+```
+
+**Step 5 —** Push and open a pull request on GitHub.
+Write what you changed and how you tested it.
+
+> [!TIP]
+> Keep it small: one change per pull request, and keep the code
+> standard-library only — no new dependencies.
 
 ---
 

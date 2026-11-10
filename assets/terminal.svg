@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-label="ktdev terminal session">
+  <rect width="1280" height="640" fill="#0d0d0d"/>
+  <rect x="40" y="24" width="1200" height="592" rx="16" fill="#141414" stroke="#2e2e2e" stroke-width="1.5"/>
+  <circle cx="78" cy="58" r="7" fill="#3a3a3a"/>
+  <circle cx="106" cy="58" r="7" fill="#5a5a5a"/>
+  <circle cx="134" cy="58" r="7" fill="#7a7a7a"/>
+  <text x="164" y="64" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="17" fill="#8a8a8a">professor@archlinux — ~/MyApp</text>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="19">
+    <text x="76" y="108" fill="#ffffff"><tspan font-weight="bold">$ </tspan>ktdev doctor</text>
+    <text x="76" y="138" fill="#a3a3a3">ktdev 0.2.0 — environment check</text>
+    <text x="76" y="168" fill="#a3a3a3">java: MISSING (auto-installs Temurin 17 on build)</text>
+    <text x="76" y="198" fill="#a3a3a3">adb: MISSING (auto-installs platform-tools on run)</text>
+    <text x="76" y="228" fill="#a3a3a3">Project: /home/professor/MyApp</text>
+    <text x="76" y="258" fill="#a3a3a3">Wrapper Gradle version: 8.9</text>
+    <text x="76" y="318" fill="#ffffff"><tspan font-weight="bold">$ </tspan>ktdev build</text>
+    <text x="76" y="348" fill="#d4d4d4">== Java not found — downloading Eclipse Temurin 17 once...</text>
+    <text x="76" y="378" fill="#d4d4d4">== Java: /home/professor/.ktdev/jdk/temurin-17/bin/java</text>
+    <text x="76" y="408" fill="#d4d4d4">== APK: /home/professor/MyApp/apk/MyApp-debug.apk</text>
+    <text x="76" y="468" fill="#ffffff"><tspan font-weight="bold">$ </tspan>ktdev devices</text>
+    <text x="76" y="498" fill="#d4d4d4">== adb not found — downloading Google platform-tools once...</text>
+    <text x="76" y="528" fill="#a3a3a3">List of devices attached</text>
+    <text x="76" y="558" fill="#a3a3a3">bb0758c3  device</text>
+    <text x="76" y="598" fill="#ffffff" font-weight="bold">$</text>
+    <rect x="92" y="582" width="11" height="21" fill="#ffffff"/>
+  </g>
+</svg>

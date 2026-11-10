@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="360" viewBox="0 0 1280 360" role="img" aria-label="ktdev banner">
+  <rect width="1280" height="360" fill="#0d0d0d"/>
+  <rect x="40" y="32" width="1200" height="296" rx="16" fill="#141414" stroke="#2e2e2e" stroke-width="1.5"/>
+  <circle cx="78" cy="66" r="7" fill="#3a3a3a"/>
+  <circle cx="106" cy="66" r="7" fill="#5a5a5a"/>
+  <circle cx="134" cy="66" r="7" fill="#7a7a7a"/>
+  <text x="164" y="72" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="17" fill="#8a8a8a">ktdev — terminal</text>
+  <text x="76" y="182" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="86" font-weight="bold" fill="#ffffff">ktdev</text>
+  <text x="78" y="226" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="24" fill="#a3a3a3">Build it. Run it. Release it. One command each.</text>
+  <text x="76" y="290" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="21" fill="#ffffff"><tspan font-weight="bold">$ </tspan>ktdev run<tspan fill="#8a8a8a">  →  app installed &amp; opened</tspan></text>
+  <rect x="1062" y="98" width="104" height="192" rx="20" fill="#0d0d0d" stroke="#444444" stroke-width="1.5"/>
+  <rect x="1074" y="114" width="80" height="128" rx="6" fill="none" stroke="#2e2e2e" stroke-width="1.5"/>
+  <rect x="1098" y="260" width="32" height="5" rx="2.5" fill="#5a5a5a"/>
+</svg>
