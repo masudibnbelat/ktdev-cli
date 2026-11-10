@@ -37,11 +37,13 @@ Then close the terminal and open it again.
 
 ## What you need first
 
-- Android SDK (Android Studio installs it)
-- Java
+- Android SDK (Android Studio installs it) — needed to **build**
 - `git`
 - `gh` (GitHub CLI) — only for `release`
 - A phone with USB debugging on — only for `run`
+
+Java and `adb` are **not** in this list: `ktdev` installs them itself
+when they are missing (see below).
 
 Check everything at once:
 
@@ -167,12 +169,32 @@ If your project uses Gradle 8.9, it uses 8.9.
 If another project uses 8.5, it uses 8.5.
 It never uses the wrong Gradle from `PATH`.
 
+## Java and adb install themselves
+
+You do not need to install Java or `adb` first.
+
+- **No Java?** On the first build, `ktdev` downloads Eclipse Temurin 17
+  once (about 190 MB) and keeps it in `~/.ktdev/jdk/`.
+  If you already have Java 17–21, it uses yours and downloads nothing.
+- **No adb?** On the first `run`, `devices`, `logs`, or `uninstall`,
+  `ktdev` downloads Google's platform-tools once (about 10–15 MB)
+  and keeps it in `~/.ktdev/platform-tools/`.
+
+On Windows the same folders are `%USERPROFILE%\.ktdev\jdk\` and
+`%USERPROFILE%\.ktdev\platform-tools\`.
+
+One honest limit: this installs Java and `adb` only.
+**Building still needs the full Android SDK** (platforms + build-tools),
+which `ktdev` does not download.
+
 ## If something goes wrong
 
 | Problem | Fix |
 |---|---|
 | `no Android project found` | Go into your project folder first (`cd MyApp`) |
 | `no phone found` | Connect the phone, turn on USB debugging, run `adb devices` |
+| First build downloads Java | Normal, only once (about 190 MB). Next builds use the saved copy. |
+| First `run` downloads adb | Normal, only once (about 10–15 MB). |
 | `tag v1.5.0 already exists` | Use a new version number |
 | `Working tree is not clean` | Commit your changes first, or add `--yes` |
 | `gh is not logged in` | Run `gh auth login` once |

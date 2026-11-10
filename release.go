@@ -129,6 +129,10 @@ func cmdRelease(args []string) {
 		return
 	}
 
+	// Java is needed for the build below; install it before the tag
+	// is created, so a failed download leaves no stale tag behind.
+	ensureJava()
+
 	// gh is only needed from here on, so --dry-run works without a login.
 	if _, err := lookPath("gh"); err != nil {
 		die("GitHub CLI missing. Install once: sudo pacman -S github-cli   then: gh auth login")

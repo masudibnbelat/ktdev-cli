@@ -31,7 +31,20 @@ func mustGradle(root string) string {
 func cmdDoctor() {
 	fmt.Println("ktdev " + version + " — environment check")
 	fmt.Println("ANDROID_HOME: " + os.Getenv("ANDROID_HOME"))
-	for _, tool := range []string{"adb", "java", "gh", "gradle"} {
+	// Java and adb are reported from where ktdev would actually use
+	// them (system first, ktdev cache second). Doctor never downloads
+	// anything — the install happens on the first build / run.
+	if bin, _, src := findJava(); bin != "" {
+		fmt.Println("java: " + bin + " (" + src + ")")
+	} else {
+		fmt.Println("java: MISSING (auto-installs Temurin 17 on build)")
+	}
+	if p, src := findAdb(); p != "" {
+		fmt.Println("adb: " + p + " (" + src + ")")
+	} else {
+		fmt.Println("adb: MISSING (auto-installs platform-tools on run)")
+	}
+	for _, tool := range []string{"gh", "gradle"} {
 		if p, err := lookPath(tool); err == nil {
 			fmt.Println(tool + ": " + p)
 		} else {
@@ -39,7 +52,11 @@ func cmdDoctor() {
 		}
 	}
 	fmt.Println("---")
-	if out, err := runCapture("adb", "devices"); err == nil {
+	adbBin, _ := findAdb()
+	if adbBin == "" {
+		adbBin = "adb"
+	}
+	if out, err := runCapture(adbBin, "devices"); err == nil {
 		fmt.Print(out)
 	} else {
 		fmt.Println("adb: no devices / adb not running")
@@ -68,9 +85,7 @@ func mustCwd() string {
 }
 
 func cmdDevices() {
-	if _, err := lookPath("adb"); err != nil {
-		die("adb not found in PATH.")
-	}
+	ensureAdb()
 	if err := runLive("adb", "devices"); err != nil {
 		die("adb devices failed: " + err.Error())
 	}
@@ -100,6 +115,7 @@ func cmdBuild(args []string) {
 		die(err.Error())
 	}
 	say("Project: " + root)
+	ensureJava()
 	gradle := mustGradle(root)
 	say("Gradle: " + gradle)
 	all := append(gradleArgs(), task)
@@ -184,8 +200,10 @@ func cmdRun(args []string) {
 		die(err.Error())
 	}
 	say("Project: " + root)
+	ensureJava()
 	gradle := mustGradle(root)
 	say("Gradle: " + gradle)
+	ensureAdb()
 	serial, err := pickDevice(device)
 	if err != nil {
 		die(err.Error())
@@ -222,6 +240,7 @@ func cmdUninstall() {
 	if pkg == "" {
 		die("package name not found — build once first (ktdev build).")
 	}
+	ensureAdb()
 	serial, err := pickDevice("")
 	if err != nil {
 		die(err.Error())
@@ -237,6 +256,7 @@ func cmdClean() {
 	if err := os.Chdir(root); err != nil {
 		die(err.Error())
 	}
+	ensureJava()
 	gradle := mustGradle(root)
 	if err := runLive(gradle, append(gradleArgs(), "clean")...); err != nil {
 		die("clean failed: " + err.Error())
@@ -244,6 +264,7 @@ func cmdClean() {
 }
 
 func cmdLogs(args []string) {
+	ensureAdb()
 	serial, err := pickDevice("")
 	if err != nil {
 		die(err.Error())

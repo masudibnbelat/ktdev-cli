@@ -16,7 +16,7 @@ import (
 	"os"
 )
 
-const version = "0.1.0"
+const version = "0.2.0"
 
 func main() {
 	ensureAndroidEnv()
@@ -69,6 +69,12 @@ to ~/.ktdev/gradle/gradle-<version>/ (Linux) or
 %USERPROFILE%\.ktdev\gradle\gradle-<version>\ (Windows).
 The Gradle on PATH is never used as a fallback when the wrapper
 wants a different version.
+
+Java and adb install themselves when missing: no usable Java 17-21
+-> Eclipse Temurin 17 is downloaded once to ~/.ktdev/jdk/
+(%USERPROFILE%\.ktdev\jdk\ on Windows); no adb -> Google's
+platform-tools zip is downloaded once to ~/.ktdev/platform-tools/.
+Building still needs the full Android SDK (platforms + build-tools).
 `)
 }
 
