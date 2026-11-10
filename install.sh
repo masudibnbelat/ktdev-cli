@@ -7,10 +7,7 @@
 #   1. Finds the latest GitHub Release of masudibnbelat/ktdev-cli.
 #   2. Downloads the matching binary (linux-amd64 or linux-arm64).
 #   3. Installs it to ~/.local/bin/ktdev and makes it executable.
-#   4. Creates ~/.local/bin/apprun  (ktdev run) and
-#      ~/.local/bin/apprelease (ktdev release) so the familiar
-#      `apprun` / `apprelease v1.5.0` commands work in any project.
-#   5. Makes sure ~/.local/bin is on PATH (adds it to ~/.bashrc / ~/.zshrc).
+#   4. Makes sure ~/.local/bin is on PATH (adds it to ~/.bashrc / ~/.zshrc).
 set -e
 REPO="masudibnbelat/ktdev-cli"
 BIN_DIR="$HOME/.local/bin"
@@ -39,16 +36,6 @@ curl -fsSL -o "$TMP/ktdev" "https://github.com/$REPO/releases/download/$TAG/$ASS
 chmod +x "$TMP/ktdev"
 cp "$TMP/ktdev" "$BIN_DIR/ktdev"
 
-cat > "$BIN_DIR/apprun" <<'EOF'
-#!/usr/bin/env bash
-exec ktdev run "$@"
-EOF
-cat > "$BIN_DIR/apprelease" <<'EOF'
-#!/usr/bin/env bash
-exec ktdev release "$@"
-EOF
-chmod +x "$BIN_DIR/apprun" "$BIN_DIR/apprelease"
-
 # Make sure ~/.local/bin is on PATH for future shells.
 for rc in "$HOME/.bashrc" "$HOME/.zshrc"; do
   if [ -f "$rc" ] && ! grep -q '\.local/bin' "$rc"; then
@@ -61,5 +48,5 @@ echo "== DONE: ktdev $TAG installed to $BIN_DIR/ktdev"
 ktdev --version
 echo "Try it in any Android project:"
 echo "  cd <your-project>   # e.g. CalNyx"
-echo "  apprun"
-echo "  apprelease v1.5.0 \"notes\""
+echo "  ktdev run"
+echo "  ktdev release v1.5.0 \"notes\""

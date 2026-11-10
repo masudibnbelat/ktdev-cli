@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-// cmdRelease mirrors the Bash apprelease, with the same three fixes:
+// cmdRelease mirrors the Bash release helper, with the same three fixes:
 //   - no `git add -A` auto-commit on a dirty tree unless --yes,
 //   - the tag is removed again if the build / stamp check fails,
 //   - the APK versionName stamp must match the tag before upload.

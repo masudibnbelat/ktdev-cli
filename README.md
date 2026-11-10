@@ -12,12 +12,12 @@
 [![Version](https://img.shields.io/badge/Version-0.1.0-orange?style=flat-square)](https://github.com/masudibnbelat/ktdev-cli/releases)
 
 ```bash
-apprun
-apprelease v1.5.0 "Fixed percent bug"
+ktdev run
+ktdev release v1.5.0 "Fixed percent bug"
 ```
 
 No more copy-pasting shell functions into `.zshrc`.
-Install once, then `apprun` / `apprelease` work in **any** Android project.
+Install once, then `ktdev run` / `ktdev release` work in **any** Android project.
 
 </div>
 
@@ -27,8 +27,8 @@ Install once, then `apprun` / `apprelease` work in **any** Android project.
 
 | You type | It does |
 |---|---|
-| `apprun` | Finds the project, picks the right Gradle, builds `installDebug`, installs it on the connected phone, and opens the app |
-| `apprelease v1.5.0` | Tags the version, builds `assembleRelease`, checks the APK stamp, pushes the tag, and creates the GitHub Release with the APK |
+| `ktdev run` | Finds the project, picks the right Gradle, builds `installDebug`, installs it on the connected phone, and opens the app |
+| `ktdev release v1.5.0` | Tags the version, builds `assembleRelease`, checks the APK stamp, pushes the tag, and creates the GitHub Release with the APK |
 | `ktdev doctor` | Checks SDK, `adb`, Java, `gh`, Gradle, the connected phone, and the project — before anything else fails |
 
 **Built for real projects, not demos:**
@@ -58,8 +58,8 @@ Close and reopen the terminal, then go to any Android project:
 
 ```bash
 cd CalNyx
-apprun
-apprelease v1.5.0 "Fixed percent bug"
+ktdev run
+ktdev release v1.5.0 "Fixed percent bug"
 ```
 
 > **First time on Windows?** Install Android Studio once (it brings the Android SDK + `adb`), then run `gh auth login` once. After that, `ktdev` works everywhere.
@@ -81,8 +81,6 @@ What the installer does:
 2. Downloads the matching binary (`ktdev-linux-amd64` / `ktdev-windows-amd64.exe`).
 3. Puts it on `PATH` (`~/.local/bin` on Linux, `%LOCALAPPDATA%\ktdev\bin` on Windows).
 4. Creates two shortcuts so the familiar names keep working:
-   - `apprun` → `ktdev run`
-   - `apprelease` → `ktdev release`
 
 ### Option 2 — Download the binary
 
@@ -123,7 +121,7 @@ CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o ktdev-windows-amd64.exe .
 | Java | Gradle needs it | `java -version` |
 | `git` | Release tagging + pushing | `git --version` |
 | `gh` (GitHub CLI) | Creating the GitHub Release | `gh auth status` |
-| A phone with USB debugging on | `apprun` installs on it | `adb devices` |
+| A phone with USB debugging on | `ktdev run` installs on it | `adb devices` |
 
 `ktdev doctor` checks all of these at once:
 
@@ -172,8 +170,8 @@ ktdev run --device bb0758c3       # pick a phone when several are connected
 Short form (installed by the installer):
 
 ```bash
-apprun
-apprun --clean
+ktdev run
+ktdev run --clean
 ```
 
 ### Build only (no phone needed)
@@ -199,9 +197,9 @@ ktdev release --yes               # allow a dirty tree (see below)
 Short form:
 
 ```bash
-apprelease
-apprelease v1.5.0 "Fixed percent bug"
-apprelease --dry-run
+ktdev release
+ktdev release v1.5.0 "Fixed percent bug"
+ktdev release --dry-run
 ```
 
 What `ktdev release` does, in order:
@@ -243,8 +241,6 @@ ktdev --version
 | `ktdev clean` | `gradle clean` |
 | `ktdev doctor` | Check SDK, tools, phone, and project |
 | `ktdev --help` / `ktdev --version` | Help / version |
-
-Shortcuts: `apprun` = `ktdev run`, `apprelease` = `ktdev release`.
 
 ---
 
@@ -357,9 +353,8 @@ names (`ktdev-linux-amd64`, `ktdev-windows-amd64.exe`).
 
 ## ❓ FAQ
 
-**Is `ktdev` the same as `apprun`?**
-Yes. `apprun` is a shortcut the installer creates for `ktdev run`,
-and `apprelease` is a shortcut for `ktdev release`. Use whichever you like.
+**Do I still need the old shell functions in `.zshrc`?**
+No. Delete them — `ktdev run` and `ktdev release` replace them.
 
 **Does it work on Windows?**
 Yes — `ktdev-windows-amd64.exe` is a native Windows binary. It uses
@@ -381,7 +376,7 @@ version and uses `./gradlew` (8.9). The `PATH` Gradle is never a fallback.
 
 <div align="center">
 
-**Made for Android developers who would rather type `apprun` than copy-paste shell functions.**
+**Made for Android developers who would rather type `ktdev run` than copy-paste shell functions.**
 
 `ktdev run` · `ktdev release v1.5.0`
 

@@ -61,10 +61,6 @@ Usage:
   ktdev devices | ktdev logs | ktdev uninstall | ktdev clean | ktdev doctor
   ktdev --help | ktdev --version
 
-Shortcuts installed by install.sh / install.ps1:
-  apprun            = ktdev run
-  apprelease [tag]  = ktdev release [tag]
-
 Gradle is never hardcoded: the version comes from the project's
 gradle/wrapper/gradle-wrapper.properties (distributionUrl).
 ./gradlew is used first; if it is missing, the exact wrapper version
