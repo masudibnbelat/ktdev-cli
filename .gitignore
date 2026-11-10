@@ -1,0 +1,6 @@
+/ktdev
+/ktdev.exe
+/ktdev-linux-amd64
+/ktdev-windows-amd64.exe
+/dist/
+*.apk

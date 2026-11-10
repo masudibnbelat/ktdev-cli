@@ -1,0 +1,30 @@
+# GoReleaser — builds ktdev for Linux + Windows from one tag.
+# Push a tag (git tag v0.1.0 && git push origin v0.1.0) and the
+# release workflow builds these binaries and uploads them to
+# GitHub Releases. install.sh / install.ps1 download them from there.
+version: 2
+before:
+  hooks:
+    - go mod tidy
+builds:
+  - main: .
+    binary: ktdev
+    env: [CGO_ENABLED=0]
+    goos: [linux, windows, darwin]
+    goarch: [amd64, arm64]
+    ldflags:
+      - -s -w
+archives:
+  - formats: ["binary"]
+    # format: binary uploads the raw binaries directly (no .tar.gz/.zip),
+    # which is what install.sh / install.ps1 download:
+    #   ktdev-linux-amd64, ktdev-windows-amd64.exe, ktdev-darwin-arm64, ...
+    name_template: "{{ .Binary }}-{{ .Os }}-{{ .Arch }}"
+checksum:
+  name_template: checksums.txt
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
