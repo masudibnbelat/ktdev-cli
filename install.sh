@@ -47,6 +47,6 @@ export PATH="$BIN_DIR:$PATH"
 echo "== DONE: ktdev $TAG installed to $BIN_DIR/ktdev"
 ktdev --version
 echo "Try it in any Android project:"
-echo "  cd <your-project>   # e.g. CalNyx"
+echo "  cd <your-project>   # e.g. MyApp"
 echo "  ktdev run"
 echo "  ktdev release v1.5.0 \"notes\""

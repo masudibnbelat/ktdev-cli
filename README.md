@@ -11,6 +11,14 @@ It does **not** run on your phone.
 Your phone is only used to install and open the app.
 `build` and `release` do not need a phone at all.
 
+## Which projects work?
+
+**Any Android project.** Kotlin or Java — it makes no difference.
+
+`ktdev` never looks at your source code. It only runs Gradle,
+finds your project folder, and talks to `adb`.
+So a Kotlin app, a Java app, or a mixed app all work the same way.
+
 ## Install
 
 **Linux / macOS** — paste this in a terminal:
@@ -55,7 +63,7 @@ The APK is also copied to a folder in your project
 (the original stays where Gradle put it):
 
 ```
-CalNyx/apk/CalNyx-debug.apk
+MyApp/apk/MyApp-debug.apk
 ```
 
 For a release build:
@@ -67,7 +75,7 @@ ktdev build --release
 That makes:
 
 ```
-CalNyx/apk/CalNyx-release.apk
+MyApp/apk/MyApp-release.apk
 ```
 
 ### 2. Build + install on your phone — phone needed
@@ -77,8 +85,8 @@ ktdev run
 ```
 
 Builds the app, installs it on your connected phone, and opens it.
-The APK is also copied to `CalNyx/apk/CalNyx-debug.apk`
-(or `CalNyx-release.apk` with `ktdev run --release`).
+The APK is also copied to `MyApp/apk/MyApp-debug.apk`
+(or `MyApp-release.apk` with `ktdev run --release`).
 
 Your phone must be connected by USB, with USB debugging on.
 If you have two phones connected, pick one:
@@ -98,7 +106,7 @@ This does everything for you:
 1. Makes the tag `v1.5.0`
 2. Builds the release APK
 3. Checks the APK version matches the tag
-4. Copies the APK to `CalNyx/apk/CalNyx-release.apk`
+4. Copies the APK to `MyApp/apk/MyApp-release.apk`
 5. Pushes the code and the tag to GitHub
 6. Creates the GitHub Release with the APK
 
@@ -163,7 +171,7 @@ It never uses the wrong Gradle from `PATH`.
 
 | Problem | Fix |
 |---|---|
-| `no Android project found` | Go into your project folder first (`cd CalNyx`) |
+| `no Android project found` | Go into your project folder first (`cd MyApp`) |
 | `no phone found` | Connect the phone, turn on USB debugging, run `adb devices` |
 | `tag v1.5.0 already exists` | Use a new version number |
 | `Working tree is not clean` | Commit your changes first, or add `--yes` |

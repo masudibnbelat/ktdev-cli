@@ -1,6 +1,6 @@
 package main
 
-// ktdev — one small CLI for any Android project (CalNyx included).
+// ktdev — one small CLI for any Android project.
 // Go port of the Bash draft in workspace/android-cli/andro.
 // Only the Go standard library is used, so there are no dependencies
 // to download, and cross-compiling to Windows from Linux is one command.

@@ -30,7 +30,7 @@ $env:Path = "$env:Path;$InstallDir"
 Write-Host "== DONE: ktdev $Tag installed to $InstallDir\ktdev.exe"
 & ktdev --version
 Write-Host "Close and reopen the terminal, then in any Android project:"
-Write-Host "  cd CalNyx"
+Write-Host "  cd MyApp"
 Write-Host "  ktdev run"
 Write-Host '  ktdev release v1.5.0 "notes"'
 Write-Host "Note: Android SDK, adb, Java and gh still need to be installed once"

@@ -124,7 +124,7 @@ func cmdBuild(args []string) {
 
 // copyBuiltApk finds the APK Gradle just built (app/build/outputs/apk/
 // <variant>/*.apk), creates <root>/apk/ if needed, and copies the APK
-// there renamed to <project>-<variant>.apk, e.g. CalNyx-debug.apk.
+// there renamed to <project>-<variant>.apk, e.g. MyApp-debug.apk.
 // The original file stays in place. An existing file with the same
 // name is replaced.
 func copyBuiltApk(root, variant string) {
