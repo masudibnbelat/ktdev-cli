@@ -16,6 +16,8 @@
 **One small CLI for any Android project.**
 Build it. Run it on your phone. Release it on GitHub. One command each.
 
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&pause=1000&color=FFFFFF&background=0D0D0D&center=true&vCenter=true&width=600&height=50&lines=ktdev+build;ktdev+run;ktdev+release+v1.5.0)](https://github.com/masudibnbelat/ktdev-cli)
+
 [![ktdev-cli](https://github-readme-stats.vercel.app/api/pin/?username=masudibnbelat&repo=ktdev-cli&theme=dark)](https://github.com/masudibnbelat/ktdev-cli)
 
 </div>
@@ -194,6 +196,26 @@ Gradle: /home/professor/MyApp/gradlew
 
 ### 1.2 Usage
 
+<table align="center">
+  <tr>
+    <td align="center" width="33%">
+      <img src="assets/icon-build.svg" width="72" alt="Build"><br>
+      <b>Build</b><br>
+      No phone needed
+    </td>
+    <td align="center" width="33%">
+      <img src="assets/icon-run.svg" width="72" alt="Run"><br>
+      <b>Run</b><br>
+      Phone needed
+    </td>
+    <td align="center" width="33%">
+      <img src="assets/icon-release.svg" width="72" alt="Release"><br>
+      <b>Release</b><br>
+      No phone needed
+    </td>
+  </tr>
+</table>
+
 Every use starts the same way: go into your Android project folder
 first.
 
@@ -299,6 +321,16 @@ No phone needed. You need internet and `gh auth login` done once.
 ---
 
 ### 1.4 How It Works
+
+```mermaid
+flowchart LR
+    A["ktdev"] --> B["Gradle + JDK 17"]
+    A --> C["adb"]
+    B --> D["APK"]
+    C --> E["Phone"]
+    D --> E
+    D --> F["GitHub Release"]
+```
 
 <details>
 <summary><b>Gradle — picked from your project, never hardcoded</b></summary>
