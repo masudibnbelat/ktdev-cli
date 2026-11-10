@@ -88,7 +88,10 @@ func cmdBuild(args []string) {
 			die("unknown flag for build: " + a + " (try: ktdev build [--release] [--clean])")
 		}
 	}
-	task := "installDebug"
+	// Build only — never install. assembleDebug needs no phone and no adb.
+	// (installDebug would fail with "No connected devices!" when no phone
+	// is plugged in, so it belongs to `ktdev run` only, not to `ktdev build`.)
+	task := "assembleDebug"
 	if release {
 		task = "assembleRelease"
 	}
@@ -108,6 +111,50 @@ func cmdBuild(args []string) {
 	if err := runLive(gradle, all...); err != nil {
 		die("build failed: " + err.Error())
 	}
+	// Copy the built APK to <project>/apk/<project>-debug.apk (or
+	// -release.apk), so it is easy to find and share — no digging
+	// through app/build/outputs/apk/. Copy, not move: the original
+	// stays where Gradle put it.
+	variant := "debug"
+	if release {
+		variant = "release"
+	}
+	copyBuiltApk(root, variant)
+}
+
+// copyBuiltApk finds the APK Gradle just built (app/build/outputs/apk/
+// <variant>/*.apk), creates <root>/apk/ if needed, and copies the APK
+// there renamed to <project>-<variant>.apk, e.g. CalNyx-debug.apk.
+// The original file stays in place. An existing file with the same
+// name is replaced.
+func copyBuiltApk(root, variant string) {
+	apkDir := filepath.Join(root, "app", "build", "outputs", "apk", variant)
+	var src string
+	// Prefer the standard app-<variant>.apk name, else any .apk here.
+	std := filepath.Join(apkDir, "app-"+variant+".apk")
+	if _, err := os.Stat(std); err == nil {
+		src = std
+	} else {
+		entries, _ := os.ReadDir(apkDir)
+		for _, e := range entries {
+			if !e.IsDir() && strings.HasSuffix(e.Name(), ".apk") {
+				src = filepath.Join(apkDir, e.Name())
+				break
+			}
+		}
+	}
+	if src == "" {
+		die("build passed, but no APK was found in " + apkDir)
+	}
+	outDir := filepath.Join(root, "apk")
+	if err := os.MkdirAll(outDir, 0o755); err != nil {
+		die("could not create apk folder: " + err.Error())
+	}
+	dest := filepath.Join(outDir, filepath.Base(root)+"-"+variant+".apk")
+	if err := copyFile(src, dest); err != nil {
+		die("could not copy APK to " + dest + ": " + err.Error())
+	}
+	say("APK: " + dest)
 }
 
 func cmdRun(args []string) {
@@ -153,6 +200,12 @@ func cmdRun(args []string) {
 	if err := runLiveEnv(gradle, env, append(gradleArgs(), task)...); err != nil {
 		die("build/install failed.")
 	}
+	// Same as `ktdev build`: copy the APK to <project>/apk/ too.
+	variant := "debug"
+	if release {
+		variant = "release"
+	}
+	copyBuiltApk(root, variant)
 	pkg := findPackage(root)
 	if pkg == "" {
 		die("built and installed, but package name not found — open the app manually.")

@@ -218,6 +218,11 @@ func cmdRelease(args []string) {
 	// Build + stamp passed; the tag is now safe to keep.
 	failed = false
 
+	// Same as `ktdev build`: copy the release APK to <project>/apk/
+	// as <project>-release.apk too (copy, not move — the original
+	// stays where Gradle put it).
+	copyBuiltApk(root, "release")
+
 	repo := filepath.Base(root)
 	home, _ := os.UserHomeDir()
 	out := filepath.Join(home, repo+"-"+tag+".apk")
