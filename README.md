@@ -17,13 +17,14 @@ Build it. Run it on your phone. Release it on GitHub. One command each.
 ## Contents
 
 - [Why ktdev?](#why-ktdev)
-- [Quick start](#quick-start)
-- [The 3 main uses](#the-3-main-uses)
-- [All commands](#all-commands)
-- [How it works](#how-it-works)
-- [What ktdev does NOT do](#what-ktdev-does-not-do)
+- [1. User Guide](#1-user-guide)
+  - [1.1 Installation Process](#11-installation-process)
+  - [1.2 Usage](#12-usage)
+  - [1.3 Command List](#13-command-list)
+  - [1.4 How It Works](#14-how-it-works)
+- [2. Developer Guide](#2-developer-guide)
 - [Troubleshooting](#troubleshooting)
-- [Developer guide](#developer-guide)
+- [What ktdev does NOT do](#what-ktdev-does-not-do)
 
 ---
 
@@ -38,25 +39,47 @@ Build it. Run it on your phone. Release it on GitHub. One command each.
 | **Safe releases** | A release stops on a dirty tree, checks the APK version matches the tag, and never uploads the wrong version. |
 | **Small and fast** | One binary, about 6 MB. Written in Go, standard library only — no dependencies. |
 
+> [!NOTE]
+> **Runs on your computer only — Windows, Linux, or macOS.**
+> It does **not** run on your phone. Your phone is only used to install
+> and open the app. `build` and `release` do not need a phone at all.
+
 ---
 
-## Quick start
+## 1. User Guide
 
-**Linux / macOS** — paste this in a terminal:
+### 1.1 Installation Process
+
+Follow these steps in order. Nothing else is needed.
+
+**Step 1 — Run the install command for your computer.**
+
+Linux / macOS — paste this in a terminal:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/masudibnbelat/ktdev-cli/main/install.sh | bash
 ```
 
-**Windows** — paste this in PowerShell:
+Windows — paste this in PowerShell:
 
 ```powershell
 irm https://raw.githubusercontent.com/masudibnbelat/ktdev-cli/main/install.ps1 | iex
 ```
 
-Then close the terminal and open it again.
+**Step 2 — Close the terminal and open it again.**
 
-Check everything at once:
+This loads the new `ktdev` command. Without this step, your
+terminal still uses the old setup.
+
+**Step 3 — Check that it works.**
+
+```bash
+ktdev --version
+```
+
+You should see `ktdev 0.2.0` (or newer).
+
+**Step 4 — Check your setup.**
 
 ```bash
 ktdev doctor
@@ -79,7 +102,7 @@ Wrapper Gradle version: 8.9
 Gradle: /home/professor/MyApp/gradlew
 ```
 
-### What you need first
+**Step 5 — Know what you need first.**
 
 | Need | For |
 |---|---|
@@ -88,68 +111,74 @@ Gradle: /home/professor/MyApp/gradlew
 | `gh` (GitHub CLI, `gh auth login` once) | `release` only |
 | A phone with USB debugging on | `run`, `devices`, `logs`, `uninstall` |
 
-Java and `adb` are **not** in this list — `ktdev` installs them itself
-when they are missing. See [How it works](#how-it-works).
-
-> **Runs on your computer only — Windows, Linux, or macOS.**
-> It does **not** run on your phone. Your phone is only used to install
-> and open the app. `build` and `release` do not need a phone at all.
+> [!TIP]
+> Java and `adb` are **not** in this list — `ktdev` installs them itself
+> when they are missing. See [1.4 How It Works](#14-how-it-works).
 
 ---
 
-## The 3 main uses
+### 1.2 Usage
 
-### 1. Build only — no phone needed
+Every use starts the same way: go into your Android project folder
+first.
+
+```bash
+cd MyApp
+```
+
+#### Use 1 — Build only (no phone needed)
+
+**Step 1 —** Go into your project folder (`cd MyApp`).
+
+**Step 2 —** Run:
 
 ```bash
 ktdev build
 ```
 
-Builds the app and makes an APK file. No phone, no cable, no `adb`.
-
-The APK is also copied to a folder in your project
-(the original stays where Gradle put it):
+**Step 3 —** Find your APK here (the original stays where Gradle put it):
 
 ```
 MyApp/apk/MyApp-debug.apk
 ```
 
-For a release build:
+For a release build, use `ktdev build --release` instead.
+That makes `MyApp/apk/MyApp-release.apk`.
 
-```bash
-ktdev build --release
-```
+#### Use 2 — Build + install on your phone (phone needed)
 
-That makes:
+**Step 1 —** Connect your phone by USB and turn on USB debugging.
 
-```
-MyApp/apk/MyApp-release.apk
-```
+**Step 2 —** Go into your project folder (`cd MyApp`).
 
-### 2. Build + install on your phone — phone needed
+**Step 3 —** Run:
 
 ```bash
 ktdev run
 ```
 
-Builds the app, installs it on your connected phone, and opens it.
-The APK is also copied to `MyApp/apk/MyApp-debug.apk`
+**Step 4 —** `ktdev` builds the app, installs it on your phone,
+and opens it. The APK is also copied to
+`MyApp/apk/MyApp-debug.apk`
 (or `MyApp-release.apk` with `ktdev run --release`).
 
-Your phone must be connected by USB, with USB debugging on.
 If you have two phones connected, pick one:
 
 ```bash
 ktdev run --device bb0758c3
 ```
 
-### 3. Build + GitHub release — no phone needed
+#### Use 3 — Build + GitHub release (no phone needed)
+
+**Step 1 —** Go into your project folder (`cd MyApp`).
+
+**Step 2 —** Run:
 
 ```bash
 ktdev release v1.5.0 "Fixed percent bug"
 ```
 
-This does everything for you:
+**Step 3 —** `ktdev` does everything for you, in order:
 
 1. Makes the tag `v1.5.0`
 2. Builds the release APK
@@ -160,23 +189,24 @@ This does everything for you:
 
 No phone needed. You need internet and `gh auth login` done once.
 
-To see what will happen, without doing it:
-
-```bash
-ktdev release --dry-run
-```
-
-To release the next patch version without typing a number:
-
-```bash
-ktdev release
-```
-
-`v1.4.2` becomes `v1.4.3`.
+> [!TIP]
+> To see what will happen, without doing it:
+>
+> ```bash
+> ktdev release --dry-run
+> ```
+>
+> To release the next patch version without typing a number:
+>
+> ```bash
+> ktdev release
+> ```
+>
+> `v1.4.2` becomes `v1.4.3`.
 
 ---
 
-## All commands
+### 1.3 Command List
 
 | Command | What it does | Phone needed? |
 |---|---|---|
@@ -193,7 +223,7 @@ ktdev release
 
 ---
 
-## How it works
+### 1.4 How It Works
 
 <details>
 <summary><b>Gradle — picked from your project, never hardcoded</b></summary>
@@ -242,17 +272,70 @@ projects with Gradle 9.x.
 
 ---
 
-## What ktdev does NOT do
+## 2. Developer Guide
 
-- **It does not install the full Android SDK.** Java and `adb` install
-  themselves, but building still needs the SDK (platforms +
-  build-tools). Install Android Studio once for that.
-- **It does not work with Flutter or React Native directly.** Their
-  project layout is different. Running inside their `android/`
-  folder may build, but release naming will be wrong. `ktdev` is
-  for native Android (Kotlin/Java) projects.
-- **It does not run on your phone.** It runs on Windows, Linux,
-  or macOS only.
+You want to change `ktdev` itself? You only need Go 1.23 or newer.
+Follow these steps in order. Everything is copy-paste.
+
+**Step 1 — Get the code.**
+
+```bash
+git clone https://github.com/masudibnbelat/ktdev-cli.git
+cd ktdev-cli
+```
+
+**Step 2 — Change the code.**
+
+Edit any `.go` file. When you get changed files from someone,
+put them in this folder and replace the old ones.
+
+**Step 3 — Build and install, in one command.**
+
+Linux / macOS:
+
+```bash
+go build -o ktdev . && cp ktdev ~/.local/bin/ktdev && ktdev --version
+```
+
+Windows (PowerShell):
+
+```powershell
+go build -o ktdev.exe .; Copy-Item ktdev.exe "$env:LOCALAPPDATA\ktdev\bin\ktdev.exe" -Force; ktdev --version
+```
+
+That one command builds it, installs it, and shows the new version.
+If it shows the old version, close the terminal and open it again.
+
+**Step 4 — Test it.**
+
+```bash
+ktdev doctor
+```
+
+Then test the command you changed, for example `ktdev build`
+in a test Android project.
+
+**Step 5 — Release a new version.**
+
+First, change the version number in `main.go`
+(`const version = "0.2.0"`). Then run this:
+
+```bash
+git add -A
+git commit -m "v0.2.0: what changed"
+git push
+git tag v0.2.0
+git push origin v0.2.0
+```
+
+> [!WARNING]
+> Tag only **after** you pushed the latest code — the tag must be on
+> the newest commit, or the Release will build old code.
+
+After the push, GitHub Actions builds the Release by itself.
+Before you tell anyone to install, check the Release page has
+files named `ktdev-linux-amd64` and `ktdev-windows-amd64.exe`
+(no `.tar.gz` / `.zip`).
 
 ---
 
@@ -272,69 +355,17 @@ projects with Gradle 9.x.
 
 ---
 
-## Developer guide
+## What ktdev does NOT do
 
-You want to change `ktdev` itself? You only need Go 1.23 or newer.
-Everything below is copy-paste. No extra setup.
-
-### 1. Get the code
-
-```bash
-git clone https://github.com/masudibnbelat/ktdev-cli.git
-cd ktdev-cli
-```
-
-### 2. Change the code
-
-Edit any `.go` file. When you get changed files from someone,
-put them in this folder and replace the old ones.
-
-### 3. Build and install — one command
-
-**Linux / macOS:**
-
-```bash
-go build -o ktdev . && cp ktdev ~/.local/bin/ktdev && ktdev --version
-```
-
-**Windows (PowerShell):**
-
-```powershell
-go build -o ktdev.exe .; Copy-Item ktdev.exe "$env:LOCALAPPDATA\ktdev\bin\ktdev.exe" -Force; ktdev --version
-```
-
-That one command builds it, installs it, and shows the new version.
-If it shows the old version, close the terminal and open it again.
-
-### 4. Test it
-
-```bash
-ktdev doctor
-```
-
-Then test the command you changed, for example `ktdev build`
-in a test Android project.
-
-### 5. Release a new version
-
-Change the version number in `main.go` first
-(`const version = "0.2.0"`), then run this:
-
-```bash
-git add -A
-git commit -m "v0.2.0: what changed"
-git push
-git tag v0.2.0
-git push origin v0.2.0
-```
-
-Tag only after you pushed the latest code — the tag must be on
-the newest commit, or the Release will build old code.
-
-After the push, GitHub Actions builds the Release by itself.
-Before you tell anyone to install, check the Release page has
-files named `ktdev-linux-amd64` and `ktdev-windows-amd64.exe`
-(no `.tar.gz` / `.zip`).
+- **It does not install the full Android SDK.** Java and `adb` install
+  themselves, but building still needs the SDK (platforms +
+  build-tools). Install Android Studio once for that.
+- **It does not work with Flutter or React Native directly.** Their
+  project layout is different. Running inside their `android/`
+  folder may build, but release naming will be wrong. `ktdev` is
+  for native Android (Kotlin/Java) projects.
+- **It does not run on your phone.** It runs on Windows, Linux,
+  or macOS only.
 
 ---
 
